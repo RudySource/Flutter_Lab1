@@ -11,7 +11,11 @@ class TodoRepository {
     if (title.trim().isEmpty) {
       throw ArgumentError("Название задачи не может быть пустым");
     }
-
+    if (title.length <= 4) {
+      throw ArgumentError(
+        "Error: Название задачи должно быть длиннее 4 символов",
+      );
+    }
     Todo todo = Todo(title.trim());
     _todos.add(todo);
   }
@@ -23,7 +27,17 @@ class TodoRepository {
         return;
       }
     }
-    throw ArgumentError("Задаяа с id #id не найдена");
+    throw ArgumentError("Задаяа с id $id не найдена");
+  }
+
+  void uncomplete(int id) {
+    for (var todo in _todos) {
+      if (todo.id == id) {
+        todo.isDone = false;
+        return;
+      }
+    }
+    throw ArgumentError("Задаяа с id $id не найдена");
   }
 
   void delete(int id) {
